@@ -1,0 +1,9 @@
+<div *ngIf="(isAutenticated$ | async) as authed; then logout else login"></div>
+
+<ng-template #login>
+    <app-login></app-login>
+</ng-template>
+
+<ng-template #logout>
+    <app-logout></app-logout>
+</ng-template>

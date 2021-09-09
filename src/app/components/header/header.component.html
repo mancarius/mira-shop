@@ -1,0 +1,26 @@
+<mat-toolbar>
+  <button mat-icon-button class="nav-button" aria-label="Example icon-button with menu icon">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>My App</span>
+  <span class="example-spacer"></span>
+  <button mat-icon-button class="example-icon favorite-icon" (click)="goToCart()" aria-label="Example icon-button with heart icon">
+    <mat-icon matBadge="{{cart.length$ | async}}" matBadgeColor="warn" matBadgeSize="small">
+      <span class="material-icons-outlined">shopping_cart</span>
+      <span class="cdk-visually-hidden">
+        You have 15 products in your cart.
+      </span>
+    </mat-icon>
+  </button>
+  <button mat-icon-button [mat-menu-trigger-for]="userMenu" aria-label="Account button">
+    <mat-icon>
+      <span *ngIf="!user" class="material-icons-outlined">account_circle</span>
+      <img *ngIf="user" class="account-button-image" src={{user?.photoURL}} />
+    </mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-menu #userMenu="matMenu">
+  <a routerLink="/auth" *ngIf="user === null" mat-menu-item>Sign In</a>
+  <button *ngIf="user !== null" mat-menu-item (click)="logoutAndRedirect()">Sign Out</button>
+</mat-menu>

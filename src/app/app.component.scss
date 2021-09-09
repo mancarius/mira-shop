@@ -1,0 +1,10 @@
+@use 'src/globals' as g;
+
+button {
+    border: none !important;
+}
+
+.container {
+    flex: 1;
+    padding: .5rem;
+}

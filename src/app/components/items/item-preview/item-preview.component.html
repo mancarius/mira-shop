@@ -1,0 +1,7 @@
+<div *ngIf="item !== undefined && item" class="item">
+  <img src="{{item.image}}" />
+  <div class="details-container">
+    <div class="price">{{item.price | currency:'EUR'}}</div>
+    <h4 class="name">{{item.name}}</h4>
+  </div>
+</div>

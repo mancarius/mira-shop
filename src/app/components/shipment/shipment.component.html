@@ -1,0 +1,19 @@
+<h2>Shipment</h2>
+<div class="subtotal-container">
+  <app-cart-subtotal></app-cart-subtotal>
+  <button class="buy-btn" mat-raised-button color="primary" [routerLink]="['/shipment']">Proceed to purchase</button>
+</div>
+<section class="shipments-container">
+  <label>Select a shipping type</label>
+  <!-- <mat-radio-group [(ngModel)]="favoriteShippingType" #ctrl="ngModel" *ngIf="shippingTypes$ | async; let shippingTypes; else loading">
+    <ul class="shipping-types">
+        <li *ngFor="let shippingType of shippingTypes">
+            <mat-radio-button [value]="shippingType?.id">{{shippingType.name}}</mat-radio-button>
+        </li>
+    </ul>
+  </mat-radio-group> -->
+</section>
+
+<ng-template #loading>
+  <div #loading>Loading...</div>
+</ng-template>

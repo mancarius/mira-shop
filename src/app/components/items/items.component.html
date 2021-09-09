@@ -1,0 +1,7 @@
+<div class="items-container" *ngIf="items$ | async; let items; else loading">
+    <ul class="items-list">
+        <app-item-preview *ngFor="let item of items" [item]="item"></app-item-preview>
+    </ul>
+    <div *ngIf="items.length === 0">No results, try clearing filters</div>
+</div>
+<ng-template #loading>Loading&hellip;</ng-template>

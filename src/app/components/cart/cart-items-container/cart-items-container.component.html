@@ -1,0 +1,9 @@
+<ul *ngIf="items$ | async; let items; else loading">
+  <li *ngFor="let item of items">
+    <app-cart-item [cartItem]="item"></app-cart-item>
+  </li>
+</ul>
+
+<ng-template #loading>
+  <div #loading>Loading...</div>
+</ng-template>

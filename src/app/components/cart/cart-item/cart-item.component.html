@@ -1,0 +1,18 @@
+<div class="container" *ngIf="product$ | async; let product">
+  <img class="image" src="{{product.image}}" />
+  <h3 class="name">{{product.name}}</h3>
+
+  <div class="amount-box">
+    <div>
+      <label class="amount-label" for="product-amount-input">Q.ty: </label>
+      <select id="product-amount-input" [formControl]="amount">
+        <option *ngFor="let n of [].constructor(10); let i = index" value="{{i+1}}">{{i+1}}</option>
+      </select></div>
+    <span class="separator">|</span>
+    <button mat-button color="warn" aria-label="Remove product from cart"
+      (click)="openDialogAndRemoveItemIfUserConfirm()">
+      Remove
+    </button>
+  </div>
+  <div class="price">{{product.price | currency:'EUR'}}</div>
+</div>

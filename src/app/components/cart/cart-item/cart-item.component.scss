@@ -1,0 +1,45 @@
+.container {
+    padding: .5em 0;
+    position: relative;
+    display: grid;
+    grid-template-columns: 8rem auto auto;
+    grid-template-rows: auto;
+    grid-template-areas: 
+        'image name name'
+        'image price .'
+        'image amount-box amount-box';
+}
+
+.image {
+    grid-area: image;
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.name {
+    grid-area: name;
+}
+
+.amount-box {
+    grid-area: amount-box;
+    padding: .5rem;
+    display:flex;
+    align-items: baseline;
+
+    .separator {
+        opacity: .5;
+        margin: {
+            left: 1.5em;
+            right: 1em;
+        }
+    }
+
+    button {
+        padding: 0;
+    }
+}
+
+.price {
+    grid-area: price;
+    font-weight: bold;
+}

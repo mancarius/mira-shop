@@ -1,0 +1,32 @@
+<h1>Cart</h1>
+<ng-container *ngIf="items$ | async; let items; else loading">
+  <section class="container">
+    <ng-container *ngIf="items; else empty_cart">
+      <div class="proceed-to-purchase-container">
+        <div class="buy-box">
+          <div class="subtotal-container">
+            <app-cart-subtotal></app-cart-subtotal>
+          </div>
+          <button class="proceed-btn" mat-raised-button color="primary" [routerLink]="['/shipment']">Proceed to
+            purchase</button>
+        </div>
+      </div>
+      <mat-divider class="mobile-only" style="margin: 1rem 0"></mat-divider>
+      <div class="items-container">
+        <app-cart-items-container></app-cart-items-container>
+        <mat-divider class="desktop-only"></mat-divider>
+        <div class="subtotal-container desktop-only">
+          <app-cart-subtotal></app-cart-subtotal>
+        </div>
+      </div>
+    </ng-container>
+  </section>
+</ng-container>
+
+<ng-template #loading>
+  <div #loading>Loading...</div>
+</ng-template>
+
+<ng-template #empty_cart>
+  <div #empty_cart>The cart is empty</div>
+</ng-template>

@@ -1,0 +1,43 @@
+@use 'src/globals' as g;
+
+.container {
+  @media screen and (min-width:g.$mobile-width) {
+    display: grid;
+    grid-template-columns: auto 19rem;
+    grid-column-gap: 1.5rem;
+    grid-template-areas: 'items proceed-to-purchase';
+  }
+
+  .items-container {
+    grid-area: items;
+  }
+
+  .proceed-to-purchase-container {
+    grid-area: proceed-to-purchase;
+  }
+}
+
+.buy-box {
+  @media screen and (min-width:g.$mobile-width) {
+    padding: .5rem;
+    border-radius: .5rem;
+    border: 1px solid #ccc;
+  }
+
+  .subtotal-container {
+    text-align: left;
+    margin-bottom: 1rem;
+  }
+
+  .proceed-btn {
+    width: 100%;
+  }
+}
+
+.subtotal-container {
+  text-align: right;
+  font-size: 1.4em;
+  padding: {
+      top: .5em;
+  }
+}
