@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import firebase from 'firebase';
-import { Observable } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { ErrorHandlerService } from 'src/app/services/error-handler.service';
 import { ShipmentService } from 'src/app/services/shipment.service';
+import { ShippingType } from 'src/app/shared/interfaces/shipping-type';
 
 @Component({
   selector: 'app-shipment',
@@ -10,20 +9,27 @@ import { ShipmentService } from 'src/app/services/shipment.service';
   styleUrls: ['./shipment.component.scss'],
 })
 export class ShipmentComponent implements OnInit {
-  public favoriteShippingType: string = '';
+  public favoriteShippingType: ShippingType['id'];
+  public shippingTypes: ShippingType[] = [];
 
-  constructor(private shipments: ShipmentService) {
-    this.shipments.shippingTypes$.subscribe((data: any) => {
-      data.docs.forEach((doc: any) => {
-        doc.ref.get().then((shipment: any) => {console.log(shipment.data())})
-    })
+  constructor(
+    private shipments: ShipmentService,
+    private errorHandler: ErrorHandlerService
+  ) {
+    this.setShippingTypes().then(() => {
+      this.favoriteShippingType = this.shippingTypes[0].id;
     });
-  }
+   }
 
   ngOnInit(): void {}
 
-  public get shippingTypes$(): any {
-    console.log('ShipmentComponent', 'shippingTypes$');
-    return this.shipments.shippingTypes$;
+  private async setShippingTypes(): Promise<void> {
+    try {
+      this.shippingTypes = await this.shipments.getAvailableShippingTypes();
+    } catch (error: any) {
+      console.log(error?.message ?? error);
+      this.errorHandler.add(error.message ?? error);
+      this.shippingTypes = [];
+    }
   }
 }
