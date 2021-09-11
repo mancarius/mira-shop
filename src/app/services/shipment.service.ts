@@ -12,6 +12,8 @@ import { ShippingType } from '../shared/interfaces/shipping-type';
 export class ShipmentService {
   private shipmentsCollection: AngularFirestoreCollection<ShippingType>;
 
+  public favoriteShipmentType: ShippingType | undefined;
+
   constructor(private afs: AngularFirestore) {
     this.shipmentsCollection = this.afs.collection<ShippingType>('shipments');
   }

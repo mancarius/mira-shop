@@ -9,7 +9,6 @@ import { ShippingType } from 'src/app/shared/interfaces/shipping-type';
   styleUrls: ['./shipment.component.scss'],
 })
 export class ShipmentComponent implements OnInit {
-  public favoriteShippingType: ShippingType['id'];
   public shippingTypes: ShippingType[] = [];
 
   constructor(
@@ -31,5 +30,13 @@ export class ShipmentComponent implements OnInit {
       this.errorHandler.add(error.message ?? error);
       this.shippingTypes = [];
     }
+  }
+
+  public set favoriteShippingType(id: ShippingType['id']) {
+    this.shipments.favoriteShipmentType = this.shippingTypes.filter((shipment) => shipment.id === id)[0];
+  }
+
+  public get favoriteShippingType(): ShippingType['id'] | undefined {
+    return this.shipments.favoriteShipmentType?.id;
   }
 }
