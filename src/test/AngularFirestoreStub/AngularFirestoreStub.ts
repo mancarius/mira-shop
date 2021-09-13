@@ -5,9 +5,11 @@ import { MockProduct } from '../MockProduct';
 
 @Injectable()
 export class AngularFirestoreStub {
+  public values_to_return: any;
+
   public collection<T>(someString: string) {
     const _this = this;
-    return { doc: _this.doc.bind(this) };
+    return { doc: _this.doc.bind(this), ref: _this.ref };
   }
 
   public query(someString: string) {
@@ -22,21 +24,30 @@ export class AngularFirestoreStub {
 
   public get ref() {
     const _this = this;
-    return { get: _this.get.bind(this) };
+    return { get: _this.get.bind(this), where: _this.where.bind(this) };
   }
 
   public get() {
     const _this = this;
-    return Promise.resolve({ data: _this.data });
+    return Promise.resolve({
+      data: _this.data.bind(this),
+      docs: [this.values_to_return],
+    });
   }
 
-  data(): Product {
-    return MockProduct;
+  data(): any {
+    return this.values_to_return;
   }
 
   public valueChanges<T>() {
-    return of(MockProduct);
+    return of(this.values_to_return);
   }
+
+  public where(a: any, b: any, c: any) {
+    const _this = this;
+    return { get: _this.get.bind(this) };
+  }
+
 }
 
 // const AngularFirestoreStub = jasmine.createSpyObj('AngularFirestore', ['collection']);
