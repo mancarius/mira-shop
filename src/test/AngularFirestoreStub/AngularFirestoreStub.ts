@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { Product } from 'src/app/shared/interfaces/product';
-import { MockProduct } from '../MockProduct';
 
 @Injectable()
 export class AngularFirestoreStub {
-  public values_to_return: any;
+  private _values_to_return: any;
+
+  constructor() {
+  }
 
   public collection<T>(someString: string) {
     const _this = this;
@@ -17,33 +18,37 @@ export class AngularFirestoreStub {
     return { doc: _this.doc.bind(this) };
   }
 
-  public doc(someString: string) {
+  public doc(someString: string): any {
     const _this = this;
     return { ref: _this.ref };
   }
 
   public get ref() {
     const _this = this;
-    return { get: _this.get.bind(this), where: _this.where.bind(this) };
+    return {
+      get: _this.get.bind(this),
+      where: _this.where.bind(this),
+      doc: _this.doc.bind(this)
+    };
   }
 
   public get() {
     const _this = this;
     return Promise.resolve({
       data: _this.data.bind(this),
-      docs: [this.values_to_return],
+      docs: [this._values_to_return],
     });
   }
 
-  data(): any {
-    return this.values_to_return;
+  public data(): any {
+    return this._values_to_return;
   }
 
   public valueChanges<T>() {
-    return of(this.values_to_return);
+    return of(this._values_to_return);
   }
 
-  public where(a: any, b: any, c: any) {
+  public where(a?: any, b?: any, c?: any) {
     const _this = this;
     return { get: _this.get.bind(this) };
   }

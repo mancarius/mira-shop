@@ -1,22 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ItemPreviewComponent } from './item-preview.component';
 
-import { ItemComponent } from './item-preview.component';
-
-describe('ItemComponent', () => {
-  let component: ItemComponent;
-  let fixture: ComponentFixture<ItemComponent>;
+describe('ItemPreviewComponent', () => {
+  let component: ItemPreviewComponent;
+  let fixture: ComponentFixture<ItemPreviewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [NoopAnimationsModule],
-      declarations: [ ItemComponent ]
-    })
-    .compileComponents();
+      declarations: [ItemPreviewComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ItemComponent);
+    fixture = TestBed.createComponent(ItemPreviewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
