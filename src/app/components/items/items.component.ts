@@ -13,13 +13,10 @@ import { Product } from 'src/app/shared/interfaces/product';
 
 export class ItemsComponent implements OnInit {
   
-  items$: Observable<Product[]> = new Observable();
+  items$: Observable<Product[]> = this._products.items$;
 
-  constructor( private products: ProductService, private errorHandler: ErrorHandlerService ) { }
+  constructor(private _products: ProductService, private _errorHandler: ErrorHandlerService) { }
 
-  ngOnInit(): void {
-    this.products.maxResults(20);
-    this.items$ = this.products.items$;                                                                                                                                        
-  }
+  ngOnInit(): void { }
 
 }
