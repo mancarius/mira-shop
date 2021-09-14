@@ -15,20 +15,29 @@ export class ShipmentComponent implements OnInit {
     private shipments: ShipmentService,
     private errorHandler: ErrorHandlerService
   ) {
-    this.setShippingTypes().then(() => {
-      this.favoriteShippingType = this.shippingTypes[0].id;
+    this._getShippingTypes().then((shipments: ShippingType[]) => {
+      this.favoriteShippingType = shipments[0]?.id;
+      this.shippingTypes = shipments;
+    }).catch(() => {
+      this.favoriteShippingType = undefined;
+      this.shippingTypes = [];
     });
    }
 
   ngOnInit(): void {}
 
-  private async setShippingTypes(): Promise<void> {
+  /**
+   * Return a promise that resolves with an array of shipping types or
+   * an empty array if fails
+   * @returns 
+   */
+  private async _getShippingTypes(): Promise<ShippingType[]> {
     try {
-      this.shippingTypes = await this.shipments.getAvailableShippingTypes();
+      return this.shipments.getAvailableShippingTypes();
     } catch (error: any) {
       console.log(error?.message ?? error);
       this.errorHandler.add(error.message ?? error);
-      this.shippingTypes = [];
+      return Promise.reject(error.message ?? error);
     }
   }
 
