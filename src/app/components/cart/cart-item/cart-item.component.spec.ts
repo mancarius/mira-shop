@@ -1,10 +1,16 @@
+import { Overlay } from '@angular/cdk/overlay';
 import { SimpleChange } from '@angular/core';
-import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  ComponentFixtureAutoDetect,
+  TestBed,
+} from '@angular/core/testing';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { By } from '@angular/platform-browser';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { CartService } from 'src/app/services/cart.service';
+import { ErrorHandlerService } from 'src/app/services/error-handler.service';
 import { ProductService } from 'src/app/services/product.service';
-import { CartItem } from 'src/app/shared/interfaces/cart-item';
-import { AngularFirestoreStub } from 'src/test/AngularFirestoreStub/AngularFirestoreStub';
 import { MockCartItem } from 'src/test/MockCartItem';
 
 import { CartItemComponent } from './cart-item.component';
@@ -16,12 +22,13 @@ describe('CartItemComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       providers: [
-        { provide: AngularFirestore, useClass: AngularFirestoreStub},
-        ProductService
+        { provide: ProductService, useValue: {} },
+        { provide: CartService, useValue: { updateItem : (id:string, value: any) => Promise.resolve()} },
+        { provide: ErrorHandlerService, useValue: { add: () => {} } },
       ],
-      declarations: [ CartItemComponent ]
-    })
-    .compileComponents();
+      imports: [MatDialogModule, NoopAnimationsModule],
+      declarations: [CartItemComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -68,5 +75,5 @@ describe('CartItemComponent', () => {
     component['_updateAmount'](1);
 
     expect(component['_cartService'].updateItem).toHaveBeenCalledTimes(1);
-  })
+  });
 });
