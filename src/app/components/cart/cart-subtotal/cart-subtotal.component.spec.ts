@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CartService } from 'src/app/services/cart.service';
 
 import { CartSubtotalComponent } from './cart-subtotal.component';
 
@@ -8,6 +9,9 @@ describe('CartSubtotalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      providers: [
+        { provide: CartService, useValue: {} },
+      ],
       declarations: [ CartSubtotalComponent ]
     })
     .compileComponents();
