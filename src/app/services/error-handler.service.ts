@@ -5,30 +5,43 @@ import { SnackyBarService } from './snacky-bar.service';
   providedIn: 'root',
 })
 export class ErrorHandlerService {
-  private _error: Error = new Error();
+  private _errorHistory: {
+    timestamp: number;
+    message?: string;
+    error: Error;
+  }[] = [];
 
   constructor(private snaky: SnackyBarService) {}
 
-  public add(error: Error | string): void {
+  public add(error: Error | string): any {
     if (typeof error == 'string') {
+      if (!error.length) {
+        error = 'An unexpected error occurred.';
+      }
       error = this._convertStringToError(error);
     }
 
-    if (error instanceof Error) {
-      this._showMessage();
-    } else {
-      this._error.message = this._error.message || 'An unexpected error occurred.';
-      this._showMessage();
-    }
+    this._errorHistory.push({ timestamp: Date.now(), error });
+
+    return { and: { showMessage: this._showMessage } };
   }
 
   private _convertStringToError(error: string): Error {
     return new Error(error);
   }
 
-  private _showMessage(): void {
-    if (this._error.message.length > 0) {
-      this.snaky.open(this._error.message);
+  private _showMessage(msg: string): void {
+    if (msg.length > 0) {
+      let lastErr = this._errorHistory.pop();
+      if (lastErr) {
+        lastErr.message = msg;
+        this._errorHistory.push(lastErr);
+      }
+      this.snaky.open(msg);
     }
+  }
+
+  public get history(): { timestamp: number; error: Error }[] {
+    return this._errorHistory;
   }
 }
