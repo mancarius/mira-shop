@@ -24,18 +24,18 @@ describe('ShipmentService', () => {
   it('#getAvailableShippingTypes should return a rejection when #_shipmentsCollectionRef is undefined', async () => {
     service['_shipmentsCollectionRef'] = undefined;
 
-    expectAsync(service.getAvailableShippingTypes()).toBeRejectedWith(
-      'Unable to load shipping types'
+    await expectAsync(service.getAvailableShippingTypes()).toBeRejectedWith(
+      'Unable to load shipping types.'
     );
   });
 
   it('#getAvailableShippingTypes should return a rejection when fail', async () => {
-    const fakeErrorMessage = 'Some error happened';
+    const fakeErrorMessage = 'fake error message';
     spyOn<any>(service['_shipmentsCollectionRef'], 'where').and.throwError(
       fakeErrorMessage
     );
 
-    expectAsync(service.getAvailableShippingTypes()).toBeRejectedWith(
+    await expectAsync(service.getAvailableShippingTypes()).toBeRejectedWith(
       fakeErrorMessage
     );
   });
@@ -43,24 +43,24 @@ describe('ShipmentService', () => {
   it('#getShipmentById should return a rejection when #_shipmentsCollectionRef is undefined', async () => {
     service['_shipmentsCollectionRef'] = undefined;
 
-    expectAsync(service.getShipmentById('fake-id')).toBeRejectedWith(
-      'Unable to load shipping types'
-    );
+    await expectAsync(
+      service.getShipmentById('fake-id')
+    ).toBeRejectedWith('Unable to load shipping types.');
   });
 
   it('#getShipmentById should return a rejection when fail', async () => {
-    const fakeErrorMessage = 'Some error happened';
+    const fakeErrorMessage = 'fake error message';
     spyOn<any>(service['_shipmentsCollectionRef'], 'doc').and.throwError(
       fakeErrorMessage
     );
 
-    expectAsync(service.getShipmentById('fake_id')).toBeRejectedWith(
-      fakeErrorMessage
-    );
+    await expectAsync(
+      service.getShipmentById('fake_id')
+    ).toBeRejectedWith(fakeErrorMessage);
   });
 
   it('#getShipmentById should return a rejection when an invalid param is passed', async () => {
-    expectAsync(service.getShipmentById('')).toBeRejectedWith(
+    await expectAsync(service.getShipmentById('')).toBeRejectedWith(
       'The shipment id received is not a valid string.'
     );
   });

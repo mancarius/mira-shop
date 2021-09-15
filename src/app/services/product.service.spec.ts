@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFirestoreStub } from 'src/test/AngularFirestoreStub/AngularFirestoreStub';
-import { MockProduct } from 'src/test/MockProduct';
 import { CategoryService } from './category.service';
 import { ErrorHandlerService } from './error-handler.service';
 
@@ -36,7 +35,10 @@ describe('ProductService', () => {
   it('#find should call the AngularFirestore methods #collection with param "products" and #data, and return an object', async () => {
     const fakeProductID = 'fakeProductID';
     spyOn(service['afs'], 'collection').and.callFake(FirestoreStub.collection);
-    spyOn<any>(service['afs'], 'data').and.callFake(FirestoreStub.data);
+    spyOn<any>(
+      service['afs'].collection('products').doc(fakeProductID).ref.get(),
+      'data'
+    ).and.callFake(FirestoreStub.data);
 
     const response = await service.find(fakeProductID);
     

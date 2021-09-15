@@ -22,11 +22,12 @@ describe('CartItemComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       providers: [
-        { provide: ProductService, useValue: {} },
-        { provide: CartService, useValue: { updateItem : (id:string, value: any) => Promise.resolve()} },
+        { provide: ProductService, useValue: { find: () => {} } },
+        { provide: CartService, useValue: { updateItem: () => {} } },
         { provide: ErrorHandlerService, useValue: { add: () => {} } },
+        { provide: MatDialog, useValue: { open : () => {} } },
       ],
-      imports: [MatDialogModule, NoopAnimationsModule],
+      imports: [NoopAnimationsModule],
       declarations: [CartItemComponent],
     }).compileComponents();
   });
@@ -37,6 +38,7 @@ describe('CartItemComponent', () => {
   });
 
   beforeEach(() => {
+    spyOn(component['_product'], 'find').and.resolveTo(MockCartItem.product);
     let prev_item_value = undefined;
     let new_item_value = MockCartItem;
     let is_first_item_change: boolean = true;
@@ -65,15 +67,15 @@ describe('CartItemComponent', () => {
       '#product-amount-input'
     );
 
-    expect(elem.value).toBe(100);
+    expect(elem.value).toBe(MockCartItem.amount);
     expect(elem.value == component.amount.value).toBeTruthy();
   });
 
   it('#_updateAmount should call #updateItem once', () => {
-    spyOn(component['_cartService'], 'updateItem').and.stub();
+    spyOn(component['_cart'], 'updateItem').and.resolveTo();
 
     component['_updateAmount'](1);
 
-    expect(component['_cartService'].updateItem).toHaveBeenCalledTimes(1);
+    expect(component['_cart'].updateItem).toHaveBeenCalledTimes(1);
   });
 });
