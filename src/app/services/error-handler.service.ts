@@ -13,7 +13,9 @@ export class ErrorHandlerService {
 
   constructor(private snaky: SnackyBarService) {}
 
-  public add(error: Error | string): any {
+  public add(error: Error | string): {
+    and: { showMessage(msg: string): void };
+  } {
     if (typeof error == 'string') {
       if (!error.length) {
         error = 'An unexpected error occurred.';
