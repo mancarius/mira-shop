@@ -2,6 +2,7 @@ import { Overlay } from '@angular/cdk/overlay';
 import { TestBed } from '@angular/core/testing';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireAuthStub } from 'src/test/AngularFireAuthStub/AngularFireAuthStub';
 import { AuthenticationService } from './authentication.service';
 import { SnackyBarService } from './snacky-bar.service';
@@ -15,8 +16,9 @@ describe('AuthenticationService', () => {
         SnackyBarService,
         { provide: AngularFireAuth, useValue: AngularFireAuthStub },
         MatSnackBar,
-        Overlay
-      ]
+        Overlay,
+      ],
+      imports: [NoopAnimationsModule],
     });
     service = TestBed.inject(AuthenticationService);
   });
