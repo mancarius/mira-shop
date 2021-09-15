@@ -30,7 +30,7 @@ export class ShipmentService {
    */
   public async getAvailableShippingTypes(): Promise<ShippingType[]> {
     if (!this._shipmentsCollectionRef) {
-      throw new Error('Unable to load shipping types');
+      throw new Error('Unable to load shipping types.');
     }
 
     let query: firebase.firestore.QuerySnapshot<ShippingType>;
@@ -54,7 +54,7 @@ export class ShipmentService {
     id: ShippingType['id']
   ): Promise<ShippingType | null> {
     if (!this._shipmentsCollectionRef) {
-      throw new Error('Unable to load shipping types');
+      throw new Error('Unable to load shipping types.');
     }
 
     if (typeof id !== 'string' || id.length == 0) {
