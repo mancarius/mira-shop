@@ -25,9 +25,9 @@ export class CartItemComponent implements OnInit {
   ]);
 
   constructor(
-    private _productService: ProductService,
-    private _cartService: CartService,
-    private _errorHandler: ErrorHandlerService,
+    private _product: ProductService,
+    private _cart: CartService,
+    private _error: ErrorHandlerService,
     private _dialog: MatDialog
   ) {}
 
@@ -46,12 +46,12 @@ export class CartItemComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('CartItemComponent initialized');
     if (this.cartItem) {
+      console.log('Adding cart item', this.cartItem);
       try {
-        this.product$ = this._productService.find(this.cartItem.product.id);
-      } catch (error) {
-        this._errorHandler.add(error);
+        this.product$ = this._product.find(this.cartItem.product.id);
+      } catch (error: any) {
+        this._error.add(error);
       }
     }
 
@@ -60,31 +60,33 @@ export class CartItemComponent implements OnInit {
 
   /**
    * Update the cart item amount.
-   * @param {Number} new_amount 
+   * @param {Number} new_amount
    */
   private _updateAmount(new_amount: number): void {
     if (new_amount) {
-      this._cartService
+      this._cart
         .updateItem(this.cartItem?.product.id, {
           amount: new_amount,
         })
-        .catch(this._errorHandler.add);
+        .catch((error: Error) => {
+          this._error.add(error);
+        });
     }
   }
 
   /**
    * Open dialog and wait for an input by user. If user confirm, then close dialog and remove item from cart.
-   * 
+   *
    */
   public openDialogAndRemoveItemIfUserConfirm(): void {
     const dialogRef = this._openDialog();
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         try {
-          this._cartService.removeItem(this.cartItem?.product.id);
+          this._cart.removeItem(this.cartItem?.product.id);
         } catch (error: any) {
-          this._errorHandler.add(error);
+          this._error.add(error);
         }
       }
     });
@@ -92,8 +94,8 @@ export class CartItemComponent implements OnInit {
 
   /**
    * Open dialog with given template and content and return a MatDialog Reference object
-   * 
-   * @returns 
+   *
+   * @returns
    */
   private _openDialog(): MatDialogRef<DialogTemplateComponent, any> {
     return this._dialog.open(DialogTemplateComponent, {
