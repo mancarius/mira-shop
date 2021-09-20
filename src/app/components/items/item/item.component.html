@@ -1,0 +1,17 @@
+<ng-container *ngIf="productId; else notFound">
+  <ng-container *ngIf="product$ | async; let product; else loading">
+    <h1>{{product.name}}</h1>
+    <p>{{product.description}}</p>
+    <app-select-item-amount (onAmountChange)="setAmount($event)"></app-select-item-amount>
+    <button mat-button (click)="addToCart(productId)">Ad to cart</button>
+  </ng-container>
+</ng-container>
+
+<ng-template #loading>
+  <p>Loading...</p>
+</ng-template>
+
+<ng-template #notFound>
+  <p>Product not found</p>
+</ng-template>
+
