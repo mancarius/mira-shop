@@ -122,10 +122,10 @@ export class ProductService {
   public async find(id: string): Promise<Product | undefined> {
     try {
       let product = await this.afs
-        .collection<Product>('products')
+        .collection<Partial<Product>>('products')
         .doc(id)
         .ref.get();
-      return product.data();
+      return { ...product.data(), id } as Product;
     } catch (error: any) {
       console.error(error);
       throw new Error(error);
