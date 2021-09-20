@@ -10,7 +10,7 @@ export class SnackyBarService {
 
   constructor(private _snackBar: MatSnackBar) { }
 
-  open(message: string, action = '', options: MatSnackBarConfig<any> = {}): void {
+  public open(message: string, action = '', options: MatSnackBarConfig<any> = {}): void {
     this._snackBar.open(
       message, 
       action, 
