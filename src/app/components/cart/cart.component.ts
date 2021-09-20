@@ -9,31 +9,11 @@ import { CartItem } from 'src/app/shared/interfaces/cart-item';
   styleUrls: ['./cart.component.scss'],
 })
 export class CartComponent implements OnInit {
-  public totalItems: number = 0;
-  public subtotal: number = 0;
 
-  constructor(private cart: CartService) {
-    console.log('CartComponent');
-  }
+  public items$: BehaviorSubject<CartItem[]> = this.cart.items$;
+  public itemsLength$: BehaviorSubject<number | null> = this.cart.length$;
 
-  ngOnInit(): void {
-    this.items$.subscribe((items) => {
-      if (items?.length) {
-        this.totalItems = items?.reduce(
-          (total, item) => total + item.amount,
-          0
-        );
-      }
-      else {
-        this.totalItems = 0;
-      }
-    });
-  }
+  constructor(private cart: CartService) { }
 
-  public get items$(): BehaviorSubject<CartItem[] | null> {
-    return this.cart.items$;
-  }
-  public get itemsLength$(): BehaviorSubject<number | null> {
-    return this.cart.length$;
-  }
+  ngOnInit(): void { }
 }
