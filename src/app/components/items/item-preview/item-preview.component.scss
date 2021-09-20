@@ -5,6 +5,8 @@
   flex-flow: column;
   background-color: #fafafa;
   cursor: pointer;
+  text-decoration: none;
+  color: inherit;
 
   &:hover {
     .name {
