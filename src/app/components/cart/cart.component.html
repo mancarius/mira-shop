@@ -7,7 +7,7 @@
           <div class="subtotal-container">
             <app-cart-subtotal></app-cart-subtotal>
           </div>
-          <button class="proceed-btn" mat-raised-button color="primary" [routerLink]="['/shipment']">Proceed to
+          <button class="proceed-btn" mat-raised-button color="primary" [routerLink]="['/buy']">Proceed to
             purchase</button>
         </div>
       </div>
@@ -24,7 +24,7 @@
 </ng-container>
 
 <ng-template #loading>
-  <div #loading>Loading...</div>
+  <div>Loading...</div>
 </ng-template>
 
 <ng-template #empty_cart>
