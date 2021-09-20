@@ -17,12 +17,7 @@ export class CartItemComponent implements OnInit {
   @Input() cartItem: CartItem | undefined;
   public product$: Promise<Product | undefined> | Promise<null> =
     Promise.resolve(null);
-
-  public amount = new FormControl(1, [
-    Validators.required,
-    Validators.min(1),
-    Validators.max(10),
-  ]);
+  public amount: number = 1;
 
   constructor(
     private _product: ProductService,
@@ -31,31 +26,17 @@ export class CartItemComponent implements OnInit {
     private _dialog: MatDialog
   ) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    for (const propName in changes) {
-      if (changes.hasOwnProperty(propName)) {
-        switch (propName) {
-          case 'cartItem': {
-            if (this.cartItem && changes['cartItem'].isFirstChange) {
-              this.amount.setValue(this.cartItem?.amount);
-            }
-          }
-        }
-      }
-    }
-  }
+
 
   ngOnInit(): void {
     if (this.cartItem) {
-      console.log('Adding cart item', this.cartItem);
       try {
-        this.product$ = this._product.find(this.cartItem.product.id);
+        this.product$ = this._product.find(this.cartItem.id);
       } catch (error: any) {
+        console.error(error);
         this._error.add(error);
       }
     }
-
-    this.amount.valueChanges.subscribe(this._updateAmount.bind(this));
   }
 
   /**
@@ -63,10 +44,10 @@ export class CartItemComponent implements OnInit {
    * @param {Number} new_amount
    */
   private _updateAmount(new_amount: number): void {
-    if (new_amount) {
+    if (new_amount && this.cartItem) {
       this._cart
-        .updateItem(this.cartItem?.product.id, {
-          amount: new_amount,
+        .updateItem(this.cartItem.id, {
+          amount: Number(new_amount),
         })
         .catch((error: Error) => {
           this._error.add(error);
@@ -82,9 +63,9 @@ export class CartItemComponent implements OnInit {
     const dialogRef = this._openDialog();
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
+      if (result && this.cartItem) {
         try {
-          this._cart.removeItem(this.cartItem?.product.id);
+          this._cart.removeItem(this.cartItem?.id);
         } catch (error: any) {
           this._error.add(error);
         }
@@ -106,4 +87,8 @@ export class CartItemComponent implements OnInit {
       },
     });
   }
+
+  public setAmount(amount: CartItem['amount']): void {
+    this._updateAmount(amount);
+  };
 }
