@@ -1,0 +1,20 @@
+<header mat-dialog-title>
+  <h2>Item Editor</h2>
+</header>
+
+<mat-dialog-content class="container">
+  <div class="spinner-frame" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
+  <admin-item-editor-form *ngIf="item" [item]="item" (onFormChanges)="setForm($event)" (onError)="catchError($event)">
+  </admin-item-editor-form>
+  <article *ngIf="failedToLoad">
+    <p>Unable to load item data.</p>
+    <p><small>Error: {{failedToLoad}}</small></p>
+  </article>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button *ngIf="failedToLoad === false" (click)="save()" [disabled]="isLoading || form.errors !== null">Save</button>
+</mat-dialog-actions>

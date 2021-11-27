@@ -1,0 +1,15 @@
+form .sub-container {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr auto;
+      grid-template-columns: 1fr auto;
+}
+
+form .sub-container *:nth-child(2) {
+  margin-left: 1rem;
+}
+
+form .zip-field {
+  min-width: 0;
+}
+/*# sourceMappingURL=shipping-address-form.component.css.map */

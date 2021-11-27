@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "private-menu.component.scss"
+    ],
+    "names": [],
+    "file": "private-menu.component.css"
+}

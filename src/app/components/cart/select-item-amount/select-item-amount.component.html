@@ -1,6 +1,6 @@
 <div>
   <label class="amount-label" for="product-amount-input">Q.ty: </label>
-  <select id="product-amount-input" [formControl]="amount">
+  <select id="product-amount-input" [formControl]="quantityControl">
     <option *ngFor="let n of [].constructor(10); let i = index" value="{{i+1}}">{{i+1}}</option>
   </select>
 </div>

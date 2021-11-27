@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ErrorHandlerService } from './services/error-handler.service';
 
 @Component({
@@ -7,12 +8,12 @@ import { ErrorHandlerService } from './services/error-handler.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'mira-shop';
-  constructor(private errorHandler: ErrorHandlerService) {}
+  title = 'MiraShop';
+  constructor(private _error: ErrorHandlerService, private _route: ActivatedRoute) {}
 
   ngOnInit() {
     if (!navigator.onLine) {
-      this.errorHandler.add('Houston, we are offline!');
+      this._error.add('browser offline').and.showMessage('Houston, we are offline!');
     }
   }
 }

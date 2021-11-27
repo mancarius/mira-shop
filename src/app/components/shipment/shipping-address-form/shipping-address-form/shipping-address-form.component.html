@@ -1,0 +1,50 @@
+<form [formGroup]="addressForm" (ngSubmit)="save()">
+  <div class="sub-container">
+    <mat-form-field appearance="fill">
+      <mat-label>Full Name</mat-label>
+      <input matInput formControlName="recipient" type="text" required>
+    </mat-form-field>
+  </div>
+  <div class="sub-container">
+    <mat-form-field appearance="fill">
+      <mat-label>Street Address</mat-label>
+      <input matInput formControlName="street" type="text" required>
+    </mat-form-field>
+  </div>
+  <div class="sub-container">
+    <mat-form-field appearance="fill">
+      <mat-label>Country</mat-label>
+      <mat-select formControlName="country" required>
+        <mat-option *ngFor="let country of countries" value="{{country.code}}">{{country.name}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf='isInvalid("country")'>{{getErrorMessage("country")}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="zip-field">
+      <mat-label>ZIP</mat-label>
+      <input matInput formControlName="zip" type="number" required>
+      <mat-error *ngIf='isInvalid("zip")'>{{getErrorMessage("zip")}}</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="sub-container">
+    <mat-form-field appearance="fill">
+      <mat-label>City</mat-label>
+      <mat-select formControlName="city">
+        <mat-option *ngFor="let city of cities" value="{{city}}" [attr.readonly]="true">{{city}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="sub-container">
+    <mat-form-field appearance="fill">
+      <mat-label>Province</mat-label>
+      <input matInput formControlName="province" readonly type="text">
+    </mat-form-field>
+  </div>
+  <div class="sub-container">
+    <mat-form-field appearance="fill">
+      <mat-label>Phone number</mat-label>
+      <input matInput formControlName="phone" type="tel" required>
+      <mat-error *ngIf='isInvalid("phone")'>{{getErrorMessage("phone")}}</mat-error>
+    </mat-form-field>
+  </div>
+  <button type="submit" mat-raised-button color="primary">Save</button>
+</form>

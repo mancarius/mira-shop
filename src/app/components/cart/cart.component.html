@@ -1,13 +1,13 @@
-<h1>Cart</h1>
+<h2>Cart</h2>
 <ng-container *ngIf="items$ | async; let items; else loading">
   <section class="container">
-    <ng-container *ngIf="items; else empty_cart">
+    <ng-container *ngIf="items.length > 0; else empty_cart">
       <div class="proceed-to-purchase-container">
         <div class="buy-box">
           <div class="subtotal-container">
             <app-cart-subtotal></app-cart-subtotal>
           </div>
-          <button class="proceed-btn" mat-raised-button color="primary" [routerLink]="['/buy']">Proceed to
+          <button class="proceed-btn" mat-raised-button color="primary" routerLink="/{{routes.buy}}">Proceed to
             purchase</button>
         </div>
       </div>
@@ -28,5 +28,6 @@
 </ng-template>
 
 <ng-template #empty_cart>
-  <div #empty_cart>The cart is empty</div>
+  <p>The cart is empty</p>
+  <a routerLink="/{{routes.shop}}">Return to the shop</a>
 </ng-template>

@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { CartService } from 'src/app/services/cart.service';
+import { Route } from 'src/app/shared/enums/route';
 import { CartItem } from 'src/app/shared/interfaces/cart-item';
 
 @Component({
@@ -8,12 +10,20 @@ import { CartItem } from 'src/app/shared/interfaces/cart-item';
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss'],
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit, OnDestroy {
+  private _unsubscribe$ = new Subject();
+  public items$: Observable<CartItem[]> = this._cart.items$.pipe(
+    takeUntil(this._unsubscribe$)
+  );
+  public itemsLength$: BehaviorSubject<number | null> = this._cart.length$;
+  public routes = Route;
 
-  public items$: BehaviorSubject<CartItem[]> = this.cart.items$;
-  public itemsLength$: BehaviorSubject<number | null> = this.cart.length$;
+  constructor(private _cart: CartService) {}
 
-  constructor(private cart: CartService) { }
+  ngOnInit(): void {}
 
-  ngOnInit(): void { }
+  ngOnDestroy() {
+    this._unsubscribe$.next();
+    this._unsubscribe$.complete();
+  }
 }

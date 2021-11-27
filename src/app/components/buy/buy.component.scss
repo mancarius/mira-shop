@@ -1,0 +1,42 @@
+.container {
+    padding: 1rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 2rem;
+}
+
+.buy-box {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    .summary-container {
+        margin-bottom: 2rem;
+
+        .order-summary-table {
+            width: 100%;
+            th {
+                font-weight: normal;
+                text-align: left;
+
+            }
+
+            td {
+                @extend th;
+                text-align: right;
+            }
+
+            tr.total-container {
+                font-size: 1.5rem;
+                font-weight: bold;
+                th, td {
+                    padding: 1rem 0;
+                    border-top: 1px solid #ccc;
+                }
+            }
+        }
+    }
+
+    .proceed-btn {
+        margin-bottom: 1rem;
+    }
+}

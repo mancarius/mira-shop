@@ -1,45 +1,50 @@
 .container {
-    padding: .5em 0;
-    position: relative;
-    display: grid;
-    grid-template-columns: 8rem auto auto;
-    grid-template-rows: auto;
-    grid-template-areas: 
-        'image name name'
-        'image price .'
-        'image amount-box amount-box';
+  padding: 1em 0;
+  position: relative;
+  display: grid;
+  grid-gap: 0.5rem;
+  grid-template-columns: 5rem auto;
+  grid-template-rows: auto;
+  grid-template-areas: "image name"
+    "image price"
+    "image amount-box";
+  align-items: center;
 }
 
 .image {
-    grid-area: image;
-    max-height: 100%;
-    max-width: 100%;
+  grid-area: image;
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-position: center;
+  object-fit: cover;
+  border-radius: 3px;
 }
 
 .name {
-    grid-area: name;
+  grid-area: name;
+  margin: 0;
 }
 
 .amount-box {
-    grid-area: amount-box;
-    padding: .5rem;
-    display:flex;
-    align-items: baseline;
+  grid-area: amount-box;
+  display: flex;
+  align-items: center;
 
-    .separator {
-        opacity: .5;
-        margin: {
-            left: 1.5em;
-            right: 1em;
-        }
-    }
+  .separator {
+    opacity: .5;
 
-    button {
-        padding: 0;
+    margin: {
+      left: 1.5em;
+      right: 1em;
     }
+  }
+
+  button {
+    padding: 0;
+  }
 }
 
 .price {
-    grid-area: price;
-    font-weight: bold;
+  grid-area: price;
+  font-weight: bold;
 }

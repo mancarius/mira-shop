@@ -1,0 +1,50 @@
+.shipping-types li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.shipping-types li .mat-radio-button {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: #f8f8f8;
+  margin-bottom: .25rem;
+  padding: 1rem;
+}
+
+.shipping-types li .mat-radio-label {
+  padding: 1rem;
+  border: 1px solid #ccc;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.shipping-types li .mat-radio-label-content {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.shipping-types li .shipping-name {
+  grid-area: name;
+}
+
+.shipping-types li .shipping-days {
+  grid-area: days;
+  opacity: .7;
+}
+
+.shipping-types li .shipping-price {
+  grid-area: price;
+  margin-right: 1ch;
+  text-transform: uppercase;
+}
+/*# sourceMappingURL=shipping-types.component.css.map */

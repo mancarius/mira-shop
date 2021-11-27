@@ -1,13 +1,19 @@
-<div class="container" *ngIf="product$ | async; let product">
+<div class="container" *ngIf="product$ | async; let product; else loading">
   <img class="image" src="{{product.image}}" />
-  <h3 class="name">{{product.name}}</h3>
+  <a [routerLink]="['/', routes.item]" [queryParams]="{sku: product.sku}">
+    <h3 class="name">{{product.name}}</h3>
+  </a>
   <div class="amount-box">
-    <app-select-item-amount [itemId]="product.id" (onAmountChange)="setAmount($event)"></app-select-item-amount>
+    <app-select-item-amount [itemId]="product.sku" [quantity]="cartItem?.amount ?? 1" (onAmountChange)="setAmount($event)"></app-select-item-amount>
     <span class="separator">|</span>
     <button mat-button color="warn" aria-label="Remove product from cart"
       (click)="openDialogAndRemoveItemIfUserConfirm()">
       Remove
     </button>
   </div>
-  <div class="price">{{product.price | currency:'EUR'}}</div>
+  <div class="price">{{product.price | currency:product.currency}}</div>
 </div>
+
+<ng-template #loading>
+  <div>Loading...</div>
+</ng-template>

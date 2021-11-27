@@ -1,0 +1,42 @@
+.shipping-types {
+  li {
+    display: flex;
+
+    .mat-radio-button {
+      flex: 1;
+      display: flex;
+      background-color: #f8f8f8;
+      margin-bottom: .25rem;
+      padding: 1rem;
+    }
+
+    .mat-radio-label {
+      padding: 1rem;
+      border: 1px solid #ccc;
+      display: flex;
+      flex: 1;
+    }
+
+    .mat-radio-label-content {
+      flex: 1;
+    }
+
+    .shipping-details {
+    }
+
+    .shipping-name {
+      grid-area: name;
+    }
+
+    .shipping-days {
+      grid-area: days;
+      opacity: .7;
+    }
+
+    .shipping-price {
+      grid-area: price;
+      margin-right: 1ch;
+      text-transform: uppercase;
+    }
+  }
+}

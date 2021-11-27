@@ -1,0 +1,85 @@
+/* Structure */
+.actions-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: end;
+}
+
+.list-container {
+  position: relative;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-top: .5rem;
+}
+
+.table-container {
+  position: relative;
+  min-height: 200px;
+  max-height: 400px;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}
+
+table .mat-sort-header-sorted {
+  color: black;
+}
+
+table .available {
+  color: green;
+}
+
+table .not_available {
+  color: rgba(167, 167, 167, 0.705);
+}
+
+.loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.mat-row {
+  cursor: pointer;
+}
+
+.mat-row:hover {
+  background-color: #fafafa;
+}
+
+/* Column Widths */
+.mat-column-state {
+  max-width: 64px;
+}
+
+.mat-column-created {
+  max-width: 124px;
+}
+
+.mat-column-select {
+  padding-right: 24px;
+}
+
+/* Dialog */
+.mat-dialog-container {
+  margin: 0 1rem;
+}
+/*# sourceMappingURL=admin-items.component.css.map */

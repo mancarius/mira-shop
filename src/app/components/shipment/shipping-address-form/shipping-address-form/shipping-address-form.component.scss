@@ -1,0 +1,14 @@
+form {
+    .sub-container {
+        display: grid;
+        grid-template-columns: 1fr auto;
+
+        *:nth-child(2) {
+            margin-left: 1rem;
+        }
+    }
+
+    .zip-field {
+        min-width: 0;
+    }
+}

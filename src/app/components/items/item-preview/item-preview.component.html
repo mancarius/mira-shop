@@ -1,7 +1,8 @@
-<div *ngIf="item !== undefined && item" class="item">
+<a *ngIf="item !== undefined && item" class="item" [routerLink]="[routes.item, dashedItemName]"
+  [queryParams]="{sku: item.sku}">
   <img src="{{item.image}}" />
   <div class="details-container">
-    <div class="price">{{item.price | currency:'EUR'}}</div>
+    <div class="price">{{item.price | currency:item.currency}}</div>
     <h4 class="name">{{item.name}}</h4>
   </div>
-</div>
+</a>

@@ -1,11 +1,15 @@
+@import "src/globals";
+
 .items-container {
-    padding: 1rem;
+    @media only screen and (max-width: $mobile-width) {
+        padding: .5rem 0;
+    }
 }
 
 .items-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: .5rem;
+    gap: 2rem;
     list-style: none;
     padding: 0;
     margin: 0;

@@ -1,0 +1,5 @@
+<a routerLink="/auth" *ngIf="user === null" mat-menu-item>Sign In</a>
+<ng-container *ngIf="user !== null">
+    <a routerLink="/private/orders" mat-menu-item>My orders</a>
+    <button mat-menu-item (click)="logoutAndRedirect()">Sign Out</button>
+</ng-container>

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,UAAU,CAAC;EACP,KAAK,EAAC,IAAI;CACb",
+    "sources": [
+        "category-input.component.scss"
+    ],
+    "names": [],
+    "file": "category-input.component.css"
+}

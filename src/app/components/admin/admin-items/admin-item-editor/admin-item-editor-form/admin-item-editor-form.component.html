@@ -1,0 +1,58 @@
+<form [formGroup]="form">
+  <!-- Sku -->
+  <mat-form-field class="" appearance="fill">
+    <mat-label>Sku</mat-label>
+    <input matInput formControlName="sku" [disabled]="item !== undefined">
+    <mat-error *ngIf="form.get('sku')?.invalid">{{getErrorMessage('sku')}}</mat-error>
+  </mat-form-field>
+  <!-- Categories -->
+  <category-input [categories]="form.get('categories')?.value ?? []" (onChanges)="setCategories($event)" [label]="'Categories'"></category-input>
+  <!-- Name -->
+  <mat-form-field class="" appearance="fill">
+    <mat-label>Item name</mat-label>
+    <input matInput placeholder="Ex. Pizza" formControlName="name">
+    <mat-error *ngIf="form.get('name')?.invalid">{{getErrorMessage('name')}}</mat-error>
+  </mat-form-field>
+  <!-- Image -->
+  <div class="image-field-box">
+    <img class="item-image-preview" src="{{form.get('image')?.invalid ? emptyImageUrl : form.get('image')?.value}}" />
+    <mat-form-field class="" appearance="fill">
+      <mat-label>Image url</mat-label>
+      <input matInput placeholder="Ex. https://your.img/url" value="" formControlName="image">
+      <mat-error *ngIf="form.get('image')?.invalid">{{getErrorMessage('image')}}</mat-error>
+    </mat-form-field>
+  </div>
+  <!-- Features -->
+  <mat-form-field class="" appearance="fill">
+    <mat-label>Features</mat-label>
+    <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+      cdkAutosizeMaxRows="10" formControlName="description"></textarea>
+  </mat-form-field>
+  <!-- Size -->
+  <mat-form-field class="" appearance="fill">
+    <mat-label>Size</mat-label>
+    <mat-select formControlName="size" name="size">
+      <mat-option *ngFor="let size of sizes" [value]="size.value">
+        {{size.label}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <!-- Price -->
+  <div class="price-field-box">
+    <mat-form-field class="" appearance="fill">
+      <mat-label>Price</mat-label>
+      <input matInput placeholder="Ex. 9.99" value="" formControlName="price">
+    </mat-form-field>
+    <!-- Currency -->
+    <mat-form-field appearance="fill">
+      <mat-label>Currency</mat-label>
+      <mat-select formControlName="currency">
+        <mat-option *ngFor="let currency of currencies" [value]="currency.code">
+          {{currency.name}} [{{currency.symbol_native}}]
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <!-- Availability -->
+  <mat-slide-toggle formControlName="is_available">Available</mat-slide-toggle>
+</form>

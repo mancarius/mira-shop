@@ -1,0 +1,68 @@
+<div class="actions-container">
+  <admin-file-upload-button>
+      <mat-icon>upload_file</mat-icon>
+  </admin-file-upload-button>
+  <button mat-icon-button (click)="open()">
+    <mat-icon>add</mat-icon>
+  </button>
+  <admin-items-delete-button [toDelete]="selection.selected"></admin-items-delete-button>
+</div>
+
+<div class="list-container">
+  <div class="loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+
+  <div class="table-container">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()" color="primary">
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)" color="primary">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="name" [sticky]="true">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+        <td mat-cell *matCellDef="let row">{{row.name}}</td>
+      </ng-container>
+      <!-- Price Column -->
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
+        <td mat-cell *matCellDef="let row">{{row.price | currency: row.currency}}</td>
+      </ng-container>
+      <!-- State Column -->
+      <ng-container matColumnDef="state">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{isMobileLayout ? '' : 'State'}}</th>
+        <td mat-cell *matCellDef="let row" [ngClass]="row.is_available ? 'available' : 'not_available'">
+          <mat-icon aria-hidden="false"
+            aria-label="This item is {{!row.is_available ? 'not' : ''} available}">{{row.is_available ? 'wifi' : 'wifi_off'}}</mat-icon>
+        </td>
+      </ng-container>
+      <!-- Created Column -->
+      <ng-container matColumnDef="created">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Created
+        </th>
+        <td mat-cell *matCellDef="let row">{{row.created_at.toDate() | date:"dd MMM yyyy"}}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="open(row.id)"></tr>
+    </table>
+  </div>
+
+  <mat-paginator [length]="resultsLength" aria-label="Select page of search results">
+  </mat-paginator>
+</div>
+
+<ng-template #loading>
+  <p>Loading...</p>
+</ng-template>

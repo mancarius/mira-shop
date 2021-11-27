@@ -1,0 +1,49 @@
+.container {
+  padding: 1rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 2rem;
+}
+
+.buy-box {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+}
+
+.buy-box .summary-container {
+  margin-bottom: 2rem;
+}
+
+.buy-box .summary-container .order-summary-table {
+  width: 100%;
+}
+
+.buy-box .summary-container .order-summary-table th, .buy-box .summary-container .order-summary-table td {
+  font-weight: normal;
+  text-align: left;
+}
+
+.buy-box .summary-container .order-summary-table td {
+  text-align: right;
+}
+
+.buy-box .summary-container .order-summary-table tr.total-container {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.buy-box .summary-container .order-summary-table tr.total-container th, .buy-box .summary-container .order-summary-table tr.total-container td, .buy-box .summary-container .order-summary-table tr.total-container td {
+  padding: 1rem 0;
+  border-top: 1px solid #ccc;
+}
+
+.buy-box .proceed-btn {
+  margin-bottom: 1rem;
+}
+/*# sourceMappingURL=buy.component.css.map */

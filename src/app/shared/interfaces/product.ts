@@ -1,11 +1,14 @@
-import { Category } from "./category";
+import firebase from "firebase";
 
 export interface Product {
-    category: any;
-    description: string;
-    image: string;
-    is_available: boolean;
-    name: string;
-    price: number;
-    id: string;
+  categories: string[];
+  description: string;
+  image: string;
+  is_available: boolean;
+  name: string;
+  price: number;
+  currency: string;
+  sku: string;
+  created_at: firebase.firestore.Timestamp;
+  id?: string;
 }

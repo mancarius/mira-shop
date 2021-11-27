@@ -1,0 +1,7 @@
+.container {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  padding: .5rem;
+}
+/*# sourceMappingURL=admin.component.css.map */

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { AuthenticationService } from 'src/app/services/authentication.service';
+import { Observable } from 'rxjs';
 import firebase from 'firebase/app';
+import { AuthService } from 'src/app/services/auth.service';
+import { map } from 'rxjs/operators';
+import { Route } from 'src/app/shared/enums/route';
 
 @Component({
   selector: 'app-auth',
@@ -13,17 +15,16 @@ export class AuthComponent implements OnInit {
 
   private redirectTo: string = '/';
 
-  constructor(private auth: AuthenticationService, private router: Router, private route: ActivatedRoute) {
+  constructor(private _auth: AuthService, private router: Router, private route: ActivatedRoute) {
     this.route.queryParams.subscribe(
-      params => this.redirectTo = params.target ?? '/'
+      params => this.redirectTo = params.target ?? Route.shop
     );
   }
 
   ngOnInit(): void {
-    this.auth.authState$.subscribe(
-      state => {
-        console.log(state);
-        if (state !== null) {
+    this._auth.state$.subscribe(
+      ({user}) => {
+        if (user !== null) {
           this.router.navigate([this.redirectTo]);
         }
       },
@@ -32,7 +33,7 @@ export class AuthComponent implements OnInit {
   }
 
   get isAutenticated$(): Observable<firebase.User | null> {
-    return this.auth.authState$;
+    return this._auth.state$.pipe(map(({user}) => user));
   }
 
 }

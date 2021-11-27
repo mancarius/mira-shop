@@ -1,3 +1,5 @@
+@import "src/globals";
+
 .item {
   padding: .15rem;
   box-shadow: 0px 1px 6px -4px #333;
@@ -7,6 +9,19 @@
   cursor: pointer;
   text-decoration: none;
   color: inherit;
+  transition: all 200ms ease;
+
+  &:hover {
+    box-shadow: 0px 4px 6px -4px #333;
+    transform: translateY(-2px);
+  }
+
+  @media only screen and (max-width: $mobile-width) {
+    flex-flow: row;
+    box-shadow: none;
+    background-color: #ffffff;
+    // border-bottom: 1px solid #ccc;
+  }
 
   &:hover {
     .name {
@@ -17,14 +32,27 @@
   img {
     height: 15rem;
     max-width: 100%;
-    object-fit: cover;
     background-color: #ffffff;
     margin-bottom: .5rem;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 3px;
+
+    @media only screen and (max-width: $mobile-width) {
+      height: 5rem;
+      width: 5rem;
+    }
   }
 
   .details-container {
 
-    margin: 0 .75rem;
+    padding: 0 .75rem;
+    box-sizing: border-box;
+    overflow: hidden;
+
+    @media only screen and (max-width: $mobile-width) {
+      padding: .75rem;
+    }
 
     .name {
       width: 100%;

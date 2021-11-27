@@ -1,0 +1,18 @@
+<mat-radio-group [(ngModel)]="favoriteShippingType" #ctrl="ngModel" [required]="true"
+  *ngIf="shippingTypes.length > 0; else loading">
+  <ul class="shipping-types">
+    <li *ngFor="let shippingType of shippingTypes; let index = index">
+      <mat-radio-button [value]="shippingType?.id" color="primary">
+        <div class="shipping-details"><span
+            class="shipping-price">{{shippingType.price > 0 ? (shippingType.price | currency:'EUR') : 'Free'}}</span> <span
+            class="shipping-name">{{shippingType.name}}</span> - <span class="shipping-days">delivery within
+            {{shippingType.delivery_days}} days</span>
+        </div>
+      </mat-radio-button>
+    </li>
+  </ul>
+</mat-radio-group>
+
+<ng-template #loading>
+  <div #loading>Loading...</div>
+</ng-template>

@@ -1,0 +1,53 @@
+<header mat-dialog-title>
+  <h2>Upload File</h2>
+</header>
+
+<mat-dialog-content class="container">
+  <div *ngIf="!isConverting && !isUploading; else progress_frame">
+    <p>Upload items from a CVS file. The required fields are ''</p>
+    <div class="file-container">
+      <ng-container *ngIf="!file">
+        <label for="singleFile">Choose your file</label>
+        <input id="singleFile" type="file" accept=".csv" (change)="readFile($event)" />
+      </ng-container>
+      <div *ngIf="file" class="file-preview">
+        <mat-icon>description</mat-icon>
+        <span class="file-details">
+          <h4 class="file-name">{{file.name | truncateText:40}}</h4> <small
+            class="file-size">{{file.size | byteConverter:3}}</small>
+        </span>
+        <button mat-icon-button (click)="removeFile()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+    <mat-error *ngIf="invalidFile.is">{{invalidFile.message}}</mat-error>
+    <div class="radio-container">
+      <mat-radio-group aria-label="Select an option" color="primary" ngModel="radioControl">
+        <mat-radio-button value="merge"><strong>Merge</strong> with existing items</mat-radio-button>
+        <mat-radio-button value="replace"><strong>Replace</strong> existing items</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<ng-template #progress_frame>
+  <div class="progress-frame">
+    <p>
+      <span *ngIf="isConverting">Converting</span>
+      <span *ngIf="isUploading">Loading</span>
+      your file...
+    </p>
+    <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+  </div>
+</ng-template>
+
+<mat-dialog-actions align="end">
+  <ng-container *ngIf="!isConverting && !isUploading; else abort_button">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button (click)="convert()" [disabled]="!file">Upload</button>
+  </ng-container>
+  <ng-template #abort_button>
+    <admin-upload-abort-button mat-dialog-close>Abort</admin-upload-abort-button>
+  </ng-template>
+</mat-dialog-actions>

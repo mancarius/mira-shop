@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "select-item-amount.component.scss"
+    ],
+    "names": [],
+    "file": "select-item-amount.component.css"
+}

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "admin-order-preview.component.scss"
+    ],
+    "names": [],
+    "file": "admin-order-preview.component.css"
+}

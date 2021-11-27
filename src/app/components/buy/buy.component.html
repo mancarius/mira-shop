@@ -1,0 +1,40 @@
+<div class="container">
+  <h3>Shipping address</h3>
+  <app-shipping-address-form *ngIf="isEditingAddress"
+    (onSubmit)="closeAddressEditor()"></app-shipping-address-form>
+  <div *ngIf="!isEditingAddress">
+    <p>
+      <strong>{{shippingAddress?.recipient}}</strong>, {{shippingAddress?.street}}, {{shippingAddress?.city}},
+      {{shippingAddress?.province}}, {{shippingAddress?.country}}
+    </p>
+    <button mat-button (click)="openAddressEditor()">Edit</button>
+  </div>
+</div>
+
+<div class="container">
+  <h3>Shipping types</h3>
+  <app-shipping-types></app-shipping-types>
+</div>
+<div class="buy-box">
+  <div class="summary-container">
+    <h2>Order Summary</h2>
+    <table class="order-summary-table">
+      <tbody>
+        <tr>
+          <th>Items:</th>
+          <td>234</td>
+        </tr>
+        <tr>
+          <th>Shipping:</th>
+          <td>234</td>
+        </tr>
+        <tr class="total-container">
+          <th>Total:</th>
+          <td>234</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <button class="proceed-btn" mat-raised-button color="accent" (click)="create()">Proceed</button>
+  <a mat-stroked-button routerLink="/{{routes.cart}}">Back to cart</a>
+</div>

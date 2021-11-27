@@ -1,0 +1,12 @@
+@use 'src/globals' as g;
+button {
+  border: none !important;
+}
+
+.container {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  padding: 1rem;
+}
+/*# sourceMappingURL=app.component.css.map */

@@ -1,45 +1,43 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { map } from 'rxjs/operators';
-import { AuthenticationService } from 'src/app/services/authentication.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { CartService } from 'src/app/services/cart.service';
+import { Route } from 'src/app/shared/enums/route';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-
   public user: any = null;
+  public admin: any = null;
+  public cartLength: number | null = null;
 
-  constructor(private authService: AuthenticationService, public cart: CartService, private router: Router) {
-    this.authService.authState$.pipe(
-      map(data => {
-        if(data) {
-          const {displayName, photoURL} = data;
-          return {displayName, photoURL};
-        }
-        return null;
-      })
-    ).subscribe(
-      user => this.user = user,
-      error => console.error(error)
+  @Input() title: string = '';
+
+  constructor(
+    private _auth: AuthService,
+    private _cart: CartService,
+    private _router: Router
+  ) {
+    this._auth.state$.subscribe(
+      ({ user, admin }) => {
+        this.user = user;
+        this.admin = admin;
+      },
+      (error) => console.error(error)
     );
   }
 
   ngOnInit(): void {
-    console.log('header', this.user);
+    this._cart.length$.subscribe((length) => {
+      if (length && length > 0) this.cartLength = length;
+      else this.cartLength = null;
+    })
   }
 
   goToCart(): void {
-    this.router.navigate(['cart']);
+    this._router.navigate(['/', ...Route.cart.split('/')]);
   }
-
-  logoutAndRedirect(): void {
-    this.authService.logout();
-    this.router.navigate(['/']);
-  }
-  
-
 }

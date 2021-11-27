@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { CartService } from 'src/app/services/cart.service';
+import { ConsItemService } from 'src/app/services/cons-item.service';
 import { ErrorHandlerService } from 'src/app/services/error-handler.service';
-import { ProductService } from 'src/app/services/product.service';
+import { Route } from 'src/app/shared/enums/route';
 import { CartItem } from 'src/app/shared/interfaces/cart-item';
 import { Product } from 'src/app/shared/interfaces/product';
 import { DialogTemplateComponent } from '../../dialog-template/dialog-template.component';
@@ -15,27 +16,32 @@ import { DialogTemplateComponent } from '../../dialog-template/dialog-template.c
 })
 export class CartItemComponent implements OnInit {
   @Input() cartItem: CartItem | undefined;
-  public product$: Promise<Product | undefined> | Promise<null> =
-    Promise.resolve(null);
-  public amount: number = 1;
+  public product$: Subject<Product | null> = new Subject();
+  public routes = Route;
 
   constructor(
-    private _product: ProductService,
+    private _item: ConsItemService,
     private _cart: CartService,
     private _error: ErrorHandlerService,
     private _dialog: MatDialog
   ) {}
 
-
-
   ngOnInit(): void {
-    if (this.cartItem) {
-      try {
-        this.product$ = this._product.find(this.cartItem.id);
-      } catch (error: any) {
-        console.error(error);
-        this._error.add(error);
-      }
+    if (typeof this.cartItem === 'object') {
+      this._item
+        .findById(this.cartItem.id)
+        .then((data) => {
+          if (!data) {
+            this.product$.complete();
+            throw new Error('Item not found');
+          }
+
+          this.product$.next(data);
+        })
+        .catch((error: any) => {
+          console.error(error);
+          this._error.add(error).and.showMessage(error.message);
+        });
     }
   }
 
@@ -45,13 +51,9 @@ export class CartItemComponent implements OnInit {
    */
   private _updateAmount(new_amount: number): void {
     if (new_amount && this.cartItem) {
-      this._cart
-        .updateItem(this.cartItem.id, {
-          amount: Number(new_amount),
-        })
-        .catch((error: Error) => {
-          this._error.add(error);
-        });
+      this._cart.updateItem(this.cartItem.sku, {
+        amount: Number(new_amount),
+      });
     }
   }
 
@@ -65,7 +67,7 @@ export class CartItemComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result && this.cartItem) {
         try {
-          this._cart.removeItem(this.cartItem?.id);
+          this._cart.removeItem(this.cartItem?.sku);
         } catch (error: any) {
           this._error.add(error);
         }
@@ -84,11 +86,12 @@ export class CartItemComponent implements OnInit {
         title: 'Confirm Remove',
         content: 'Are you sure you want to remove this product from your cart?',
         action: 'Remove',
+        action_color: 'warn',
       },
     });
   }
 
   public setAmount(amount: CartItem['amount']): void {
     this._updateAmount(amount);
-  };
+  }
 }

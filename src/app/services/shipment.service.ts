@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, CollectionReference } from '@angular/fire/firestore';
 import firebase from 'firebase';
+import { Collections } from '../shared/enums/collections';
+import { ShippingAddress } from '../shared/interfaces/shipping-address';
 import { ShippingType } from '../shared/interfaces/shipping-type';
 import { ErrorHandlerService } from './error-handler.service';
 
@@ -8,15 +10,19 @@ import { ErrorHandlerService } from './error-handler.service';
   providedIn: 'root',
 })
 export class ShipmentService {
+  private _shippingAddress: ShippingAddress | null = null;
   private _shipmentsCollectionRef:
     | CollectionReference<ShippingType>
     | undefined;
   public favoriteShipmentType: ShippingType | undefined;
 
-  constructor(private _afs: AngularFirestore, private _errorHandler: ErrorHandlerService) {
+  constructor(
+    private _afs: AngularFirestore,
+    private _errorHandler: ErrorHandlerService
+  ) {
     try {
       this._shipmentsCollectionRef =
-        this._afs.collection<ShippingType>('shipments').ref;
+        this._afs.collection<ShippingType>(Collections.shipments).ref;
     } catch (err: any) {
       _errorHandler.add(err);
       console.error(err);
@@ -72,5 +78,13 @@ export class ShipmentService {
     } else {
       return null;
     }
+  }
+
+  public set shippingAddress(address: ShippingAddress | null) {
+    this._shippingAddress = address;
+  }
+
+  public get shippingAddress(): ShippingAddress | null {
+    return this._shippingAddress;
   }
 }

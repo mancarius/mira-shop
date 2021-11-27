@@ -1,52 +1,57 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { SnackyBarService } from './snacky-bar.service';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthenticationService {
+  public authState$: ReplaySubject<firebase.User | null> =
+    new ReplaySubject<firebase.User | null>();
 
-  public authState$: Observable<firebase.User | null>;
-  private state: firebase.User | null = null;
-
-  constructor(private auth: AngularFireAuth, private _snackBar: SnackyBarService) {
-    this.authState$ = this.auth.authState;
-    this.auth.authState.subscribe((state: firebase.User | null) => {
-      if (state !== null) {
-        this.state = state;
-        this._snackBar.open('You are authenticated as ' + state.displayName);
-      }
-      else {
-        this.state = null;
-        this._snackBar.open('You have been disconnected');
-      }
+  constructor(private _auth: AngularFireAuth) {
+    // convert Observable to BehaviorSubject
+    this._auth.authState.subscribe((state: firebase.User | null) => {
+      this.state = state;
     });
   }
 
-  get isAuthenticated(): boolean {
+  private set state(value: firebase.User | null) {
+    if (value !== null) {
+      localStorage.setItem('user_auth', JSON.stringify(value));
+    } else {
+      localStorage.removeItem('user_auth');
+    }
+    this.authState$.next(value);
+  }
+
+  private get state(): firebase.User | null {
+    const userState = localStorage.getItem('user_auth');
+    return typeof userState === 'string' ? JSON.parse(userState) : null;
+  }
+
+  public get isAuthenticated(): boolean {
     return this.state !== null;
   }
 
-  get currentUser(): firebase.User | null {
+  public get currentUser(): firebase.User | null {
     return this.state;
   }
 
-  get currentUserId(): string | null {
+  public get currentUserId(): string | null {
     return this.state?.uid ?? null;
   }
 
-  facebookLogin(): Promise<firebase.auth.UserCredential> {
-    return this.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
+  public facebookLogin(): Promise<firebase.auth.UserCredential> {
+    return this._auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
   }
 
-  anonimousLogin(): void {
-    this.auth.signInAnonymously();
+  public anonimousLogin(): void {
+    this._auth.signInAnonymously();
   }
 
-  logout(): void {
-    this.auth.signOut();
+  public logout(): void {
+    this._auth.signOut();
   }
 }

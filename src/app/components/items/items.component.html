@@ -1,3 +1,4 @@
+<app-search-input (onSearch)="findItems($event)"></app-search-input>
 <div class="items-container" *ngIf="items$ | async; let items; else loading">
     <ul class="items-list">
         <app-item-preview *ngFor="let item of items" [item]="item"></app-item-preview>

@@ -1,9 +1,10 @@
-<ng-container *ngIf="productId; else notFound">
+<ng-container *ngIf="(product$ | async) !== null; else notFound">
   <ng-container *ngIf="product$ | async; let product; else loading">
     <h1>{{product.name}}</h1>
+    <img class="image" src="{{product.image}}"/>
     <p>{{product.description}}</p>
     <app-select-item-amount (onAmountChange)="setAmount($event)"></app-select-item-amount>
-    <button mat-button (click)="addToCart(productId)">Ad to cart</button>
+    <button mat-button (click)="addToCart()">Ad to cart</button>
   </ng-container>
 </ng-container>
 
@@ -13,5 +14,6 @@
 
 <ng-template #notFound>
   <p>Product not found</p>
+  <a [routerLink]="[routes.shop]"></a>
 </ng-template>
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { CartService } from 'src/app/services/cart.service';
 import { ErrorHandlerService } from 'src/app/services/error-handler.service';
@@ -10,13 +10,14 @@ import { Product } from 'src/app/shared/interfaces/product';
   templateUrl: './select-item-amount.component.html',
   styleUrls: ['./select-item-amount.component.scss'],
 })
-export class SelectItemAmountComponent implements OnInit {
-  @Input() itemId: Product['id'] | undefined;
+export class SelectItemAmountComponent implements OnInit, OnChanges {
+  @Input() itemId: Product['sku'] | undefined;
+  @Input() quantity: number = 1;
   @Output() onAmountChange: EventEmitter<CartItem['amount']> = new EventEmitter<
     CartItem['amount']
   >();
 
-  public amount = new FormControl(1, [
+  public quantityControl = new FormControl(this.quantity, [
     Validators.required,
     Validators.min(1),
     Validators.max(10),
@@ -25,7 +26,12 @@ export class SelectItemAmountComponent implements OnInit {
   constructor(
     private _cart: CartService,
     private _error: ErrorHandlerService
-  ) {
+  ) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.quantity.currentValue !== changes.quantity.previousValue) {
+      this.quantityControl.setValue(changes.quantity.currentValue);
+    }
   }
 
   ngOnInit(): void {
@@ -45,17 +51,13 @@ export class SelectItemAmountComponent implements OnInit {
   private _initAmount(): void {
     if (this._isValidItemId) {
       const curAmount = this._cart.getItem(this.itemId as string)?.amount;
-      curAmount && this.amount.setValue(curAmount);
+      curAmount && this.quantityControl.setValue(curAmount);
     }
   }
 
   private subscribeEmitterToAmountValueChanges(): void {
-    try {
-      this.amount.valueChanges.subscribe((value) => {
-        this.onAmountChange.emit(value);
-      });
-    } catch (err: any) {
-      throw new Error(err?.message ?? err);
-    }
+    this.quantityControl.valueChanges.subscribe((value) => {
+      this.onAmountChange.emit(value);
+    });
   }
 }

@@ -1,0 +1,79 @@
+/* Structure */
+.actions-container {
+  display: flex;
+  justify-content: end;
+}
+
+.list-container {
+  position: relative;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-top: .5rem;
+}
+
+.table-container {
+  position: relative;
+  min-height: 200px;
+  max-height: 400px;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+
+  .mat-sort-header-sorted {
+    color: black;
+  }
+
+  .available {
+    color: green;
+  }
+
+  .not_available {
+    color: rgba(167, 167, 167, 0.705);
+  }
+}
+
+.loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mat-row {
+  cursor: pointer;
+
+  &:hover {
+    background-color: #fafafa;
+  }
+}
+
+/* Column Widths */
+.mat-column-state {
+  width: 30px;
+}
+
+.mat-column-created {
+  max-width: 124px;
+}
+
+.mat-column-select {
+  padding-right: 24px;
+}
+
+th.mat-header-cell:first-of-type {
+  width: 1rem;
+}
+
+
+/* Dialog */
+.mat-dialog-container {
+  margin: 0 1rem;
+}

@@ -1,0 +1,36 @@
+form {
+    display: flex;
+    flex-flow: column;
+
+    .image-field-box {
+        display: flex;
+        flex-flow: row-reverse;
+        gap: 1rem;
+
+        .item-image-preview {
+          object-fit: contain;
+          object-position: center;
+          height: calc(3rem + 1px);
+          margin-top: 1px;
+          border: 1px solid #333;
+        }
+
+        .mat-form-field {
+            flex: 1;
+        }
+    }
+
+    .price-field-box {
+        display: flex;
+        gap: 1rem;
+
+        :first-child {
+            flex: 1;
+            min-width: 0;;
+        }
+
+        :last-child {
+            flex: 2;
+        }
+    }
+}
